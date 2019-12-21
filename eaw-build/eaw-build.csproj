@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <RootNamespace>eaw.build</RootNamespace>
+        <Title>Empire at War Build Tool</Title>
+        <Authors>Lukas Grünwald</Authors>
+        <Copyright>Lukas Grünwald</Copyright>
+        <Company>Lukas Grünwald</Company>
+        <Product>Empire at War Build Tool</Product>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.6.0" />
+      <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
+      <PackageReference Include="pg.dat" Version="1.0.0" />
+      <PackageReference Include="pg.meg" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="data\config\v1\eaw-build.xsd" />
+      <EmbeddedResource Include="data\config\v2\eaw-build.xsd" />
+    </ItemGroup>
+
+</Project>

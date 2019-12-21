@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eaw-build", "eaw-build\eaw-build.csproj", "{F5944688-BDF2-4470-8784-FF906B981D83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eaw-build.test", "eaw-build.test\eaw-build.test.csproj", "{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5944688-BDF2-4470-8784-FF906B981D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5944688-BDF2-4470-8784-FF906B981D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5944688-BDF2-4470-8784-FF906B981D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5944688-BDF2-4470-8784-FF906B981D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
