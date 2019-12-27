@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
            attributeFormDefault="unqualified">
     <xs:element name="ModBuildConfig" type="ModBuildConfigType">
     </xs:element>
     <xs:complexType name="LocalisationType">
-        <xs:attribute name="LocalisationFile" type="xs:string"/>
+        <xs:attribute name="LocalisationFile" type="xs:string" />
     </xs:complexType>
     <xs:complexType name="BundleType">
         <xs:sequence>
@@ -15,7 +16,7 @@
                         name="File" type="xs:string">
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="Name" type="xs:string" />
     </xs:complexType>
     <xs:complexType name="BuildSettingsType">
         <xs:sequence>
@@ -37,10 +38,10 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ModSettingsType">
-        <xs:attribute name="Name" type="xs:string"/>
-        <xs:attribute name="ShortName" type="xs:string"/>
-        <xs:attribute name="Version" type="xs:string"/>
-        <xs:attribute name="ReleaseType" type="xs:string"/>
+        <xs:attribute name="Name" type="xs:string" />
+        <xs:attribute name="ShortName" type="xs:string" />
+        <xs:attribute name="Version" type="xs:string" />
+        <xs:attribute name="ReleaseType" type="xs:string" />
     </xs:complexType>
     <xs:complexType name="DirectoryType">
         <xs:simpleContent>

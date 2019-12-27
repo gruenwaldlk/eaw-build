@@ -26,6 +26,7 @@ using eaw.build.app.util;
  * ```
  */
 [assembly: InternalsVisibleTo("eaw-build.test")]
+
 namespace eaw.build
 {
     internal class Builder

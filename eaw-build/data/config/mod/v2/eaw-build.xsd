@@ -1,23 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/eaw-build" xmlns:eaw="http://www.example.org/eaw-build" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/eaw-build"
+            xmlns:eaw="http://www.example.org/eaw-build" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="ModDescriptionType">
         <xsd:sequence maxOccurs="1" minOccurs="1">
-            <xsd:element maxOccurs="1" minOccurs="1" name="Summary" type="eaw:StringType"/>
-            <xsd:element maxOccurs="1" minOccurs="0" name="Description" type="eaw:StringType"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="Summary" type="eaw:StringType" />
+            <xsd:element maxOccurs="1" minOccurs="0" name="Description" type="eaw:StringType" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ModNameType">
         <xsd:sequence>
-            <xsd:element maxOccurs="1" minOccurs="0" name="ShortName" type="eaw:StringType"/>
-            <xsd:element maxOccurs="1" minOccurs="1" name="LongName" type="eaw:StringType"/>
+            <xsd:element maxOccurs="1" minOccurs="0" name="ShortName" type="eaw:StringType" />
+            <xsd:element maxOccurs="1" minOccurs="1" name="LongName" type="eaw:StringType" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ModVersionType">
         <xsd:sequence>
-            <xsd:element maxOccurs="1" minOccurs="1" name="Major" type="eaw:IntegerType"/>
-            <xsd:element maxOccurs="1" minOccurs="1" name="Minor" type="eaw:IntegerType"/>
-            <xsd:element maxOccurs="1" minOccurs="1" name="Patch" type="eaw:IntegerType"/>
-            <xsd:element maxOccurs="1" minOccurs="1" name="Build" type="eaw:IntegerType"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="Major" type="eaw:IntegerType" />
+            <xsd:element maxOccurs="1" minOccurs="1" name="Minor" type="eaw:IntegerType" />
+            <xsd:element maxOccurs="1" minOccurs="1" name="Patch" type="eaw:IntegerType" />
+            <xsd:element maxOccurs="1" minOccurs="1" name="Build" type="eaw:IntegerType" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ModInfoType">
@@ -69,29 +71,30 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:element name="ModProject" type="eaw:ModProjectType"/>
+    <xsd:element name="ModProject" type="eaw:ModProjectType" />
     <xsd:simpleType name="SteamFileIdType">
         <xsd:annotation>
             <xsd:documentation>The mod's Steam ID.</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d+"/>
-            <xsd:minLength value="1"/>
-            <xsd:whiteSpace value="collapse"/>
+            <xsd:pattern value="\d+" />
+            <xsd:minLength value="1" />
+            <xsd:whiteSpace value="collapse" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="SteamVisibilityType">
         <xsd:annotation>
-            <xsd:documentation>Determines the workshop item visibility.
+            <xsd:documentation>
+                Determines the workshop item visibility.
                 0: Private
                 1: Friends-only.
                 2: Public
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="0"/>
-            <xsd:enumeration value="1"/>
-            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="0" />
+            <xsd:enumeration value="1" />
+            <xsd:enumeration value="2" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="SteamTagType">
@@ -99,11 +102,11 @@
             <xsd:documentation>Additional Steam tags to classify the mod.</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="SinglePlayer"/>
-            <xsd:enumeration value="Multiplayer"/>
-            <xsd:enumeration value="Land"/>
-            <xsd:enumeration value="Space"/>
-            <xsd:enumeration value="Campaign"/>
+            <xsd:enumeration value="SinglePlayer" />
+            <xsd:enumeration value="Multiplayer" />
+            <xsd:enumeration value="Land" />
+            <xsd:enumeration value="Space" />
+            <xsd:enumeration value="Campaign" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:complexType name="SteamMetaDataType">
@@ -115,7 +118,8 @@
             </xsd:element>
             <xsd:element maxOccurs="1" minOccurs="1" name="Visibility" type="eaw:SteamVisibilityType">
                 <xsd:annotation>
-                    <xsd:documentation>Determines the workshop item visibility.
+                    <xsd:documentation>
+                        Determines the workshop item visibility.
                         0: Private
                         1: Friends-only.
                         2: Public
@@ -124,7 +128,8 @@
             </xsd:element>
             <xsd:element maxOccurs="1" minOccurs="1" name="GameMode" type="eaw:SteamGameModeType">
                 <xsd:annotation>
-                    <xsd:documentation>Determines if a mod is targeting Empire at War or Forces of Corruption.
+                    <xsd:documentation>
+                        Determines if a mod is targeting Empire at War or Forces of Corruption.
                         EAW: Empire at War
                         FOC: Forces of Corruption.
                     </xsd:documentation>
@@ -135,20 +140,21 @@
                     <xsd:documentation>Additional Steam tags to classify the mod.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element maxOccurs="1" minOccurs="1" name="ContentFolder" type="eaw:StringType"/>
-            <xsd:element maxOccurs="1" minOccurs="0" name="AdditionalMetaData" type="eaw:StringType"/>
+            <xsd:element maxOccurs="1" minOccurs="1" name="ContentFolder" type="eaw:StringType" />
+            <xsd:element maxOccurs="1" minOccurs="0" name="AdditionalMetaData" type="eaw:StringType" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:simpleType name="SteamGameModeType">
         <xsd:annotation>
-            <xsd:documentation>Determines if a mod is targeting Empire at War or Forces of Corruption.
+            <xsd:documentation>
+                Determines if a mod is targeting Empire at War or Forces of Corruption.
                 EAW: Empire at War
                 FOC: Forces of Corruption.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="EAW"/>
-            <xsd:enumeration value="FOC"/>
+            <xsd:enumeration value="EAW" />
+            <xsd:enumeration value="FOC" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:complexType name="DirectoryType">
@@ -158,7 +164,8 @@
         <xsd:sequence>
             <xsd:element maxOccurs="1" minOccurs="1" name="DirectoryPath" type="eaw:DataPathType">
                 <xsd:annotation>
-                    <xsd:documentation>A relative path to a directory starting at the mod's data directory.
+                    <xsd:documentation>
+                        A relative path to a directory starting at the mod's data directory.
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
@@ -261,7 +268,8 @@
             </xsd:element>
             <xsd:element maxOccurs="1" minOccurs="1" name="MoveDefinitions" type="eaw:MoveDefinitionsType">
                 <xsd:annotation>
-                    <xsd:documentation>Defines items that need to be moved during cooking (e.g. splash screens or text
+                    <xsd:documentation>
+                        Defines items that need to be moved during cooking (e.g. splash screens or text
                         files) and cannot be packed into MEG files.
                     </xsd:documentation>
                 </xsd:annotation>
@@ -270,7 +278,8 @@
     </xsd:complexType>
     <xsd:complexType name="MoveDefinitionsType">
         <xsd:annotation>
-            <xsd:documentation>Defines items that need to be moved during cooking (e.g. splash screens or text files)
+            <xsd:documentation>
+                Defines items that need to be moved during cooking (e.g. splash screens or text files)
                 and cannot be packed into MEG files.
             </xsd:documentation>
         </xsd:annotation>
@@ -306,14 +315,15 @@
     </xsd:complexType>
     <xsd:simpleType name="LocalisationProjectVersionType">
         <xsd:annotation>
-            <xsd:documentation>The localisation project version:
+            <xsd:documentation>
+                The localisation project version:
                 v1 if generated by the eaw-texteditor.
                 v2 if generated by the eaw-buildtool.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="v1"/>
-            <xsd:enumeration value="v2"/>
+            <xsd:enumeration value="v1" />
+            <xsd:enumeration value="v2" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:complexType name="LocalisationSettingsType">
@@ -323,14 +333,17 @@
         <xsd:sequence>
             <xsd:element maxOccurs="1" minOccurs="1" name="LocalisationProjectFile" type="eaw:StringType">
                 <xsd:annotation>
-                    <xsd:documentation>The relative path to the localisation project.
+                    <xsd:documentation>
+                        The relative path to the localisation project.
                         Usually either data/text/translationmanifest.xml or data/text/localisation.xml
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element maxOccurs="1" minOccurs="1" name="LocalisationProjectVersion" type="eaw:LocalisationProjectVersionType">
+            <xsd:element maxOccurs="1" minOccurs="1" name="LocalisationProjectVersion"
+                         type="eaw:LocalisationProjectVersionType">
                 <xsd:annotation>
-                    <xsd:documentation>The localisation project version:
+                    <xsd:documentation>
+                        The localisation project version:
                         v1 if generated by the eaw-texteditor.
                         v2 if generated by the eaw-buildtool.
                     </xsd:documentation>
@@ -343,10 +356,10 @@
             <xsd:documentation>A relative path starting from the mod's data directory.</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="65535"/>
-            <xsd:whiteSpace value="collapse"/>
-            <xsd:pattern value="data/.+"/>
-            <xsd:minLength value="1"/>
+            <xsd:maxLength value="65535" />
+            <xsd:whiteSpace value="collapse" />
+            <xsd:pattern value="data/.+" />
+            <xsd:minLength value="1" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="EaWFilePatternType">
@@ -354,7 +367,7 @@
             <xsd:documentation>A file search pattern, e.g. *.xml</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="(\*|(\*)(\.)(\w+))"/>
+            <xsd:pattern value="(\*|(\*)(\.)(\w+))" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="BundleNameType">
@@ -362,27 +375,27 @@
             <xsd:documentation>The name of a MEG file.</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:whiteSpace value="collapse"/>
-            <xsd:pattern value="(\w+|\w+_\w+|\w+-\w+)+"/>
-            <xsd:maxLength value="127"/>
+            <xsd:minLength value="1" />
+            <xsd:whiteSpace value="collapse" />
+            <xsd:pattern value="(\w+|\w+_\w+|\w+-\w+)+" />
+            <xsd:maxLength value="127" />
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="StringType">
-        <xsd:restriction base="xsd:string"/>
+        <xsd:restriction base="xsd:string" />
     </xsd:simpleType>
     <xsd:simpleType name="IntegerType">
-        <xsd:restriction base="xsd:int"/>
+        <xsd:restriction base="xsd:int" />
     </xsd:simpleType>
     <xsd:simpleType name="BooleanType">
-        <xsd:restriction base="xsd:boolean"/>
+        <xsd:restriction base="xsd:boolean" />
     </xsd:simpleType>
     <xsd:complexType name="SteamTags">
         <xsd:annotation>
             <xsd:documentation>Additional Steam tags to classify the mod.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" minOccurs="1" name="Tag" type="eaw:SteamTagType"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="1" name="Tag" type="eaw:SteamTagType" />
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>

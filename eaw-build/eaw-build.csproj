@@ -14,15 +14,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CommandLineParser" Version="2.6.0" />
-      <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
-      <PackageReference Include="pg.dat" Version="1.0.0" />
-      <PackageReference Include="pg.meg" Version="1.0.0" />
+        <PackageReference Include="CommandLineParser" Version="2.6.0" />
+        <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
+        <PackageReference Include="pg.dat" Version="1.0.0" />
+        <PackageReference Include="pg.meg" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="data\config\v1\eaw-build.xsd" />
-      <EmbeddedResource Include="data\config\v2\eaw-build.xsd" />
+        <None Remove="data\config\v1\eaw-build.xsd" />
+        <EmbeddedResource Include="data\config\mod\v1\yvaw-build.xsd" />
+        <EmbeddedResource Include="data\config\mod\v2\eaw-build.xsd" />
+        <None Remove="data\config\v1\yvaw-build.xsd" />
     </ItemGroup>
 
 </Project>
