@@ -25,6 +25,12 @@
         <EmbeddedResource Include="data\config\mod\v1\yvaw-build.xsd" />
         <EmbeddedResource Include="data\config\mod\v2\eaw-build.xsd" />
         <None Remove="data\config\v1\yvaw-build.xsd" />
+        <None Remove="data\config\text\v1\eaw-translation.xsd" />
+        <EmbeddedResource Include="data\config\text\v1\eaw-translation.xsd" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="data\config\text\v2" />
     </ItemGroup>
 
 </Project>
