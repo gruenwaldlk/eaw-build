@@ -5,6 +5,7 @@ using eaw.build.app.util.game;
 using eaw.build.app.util.xml;
 using eaw.build.data.config.mod.v1;
 using eaw.build.data.config.mod.v2;
+using Serilog;
 
 namespace eaw.build.app.util.mod
 {
@@ -25,9 +26,9 @@ namespace eaw.build.app.util.mod
                 return ModProjectVersion.V1;
             }
 #if DEBUG
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.Write(e);
+                Log.Error("An exception occurred {@Exception}", exception);
 #else
             catch (Exception)
             {
@@ -41,9 +42,9 @@ namespace eaw.build.app.util.mod
                 return ModProjectVersion.V2;
             }
 #if DEBUG
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.Write(e);
+                Log.Error("An exception occurred {@Exception}", exception);
 #else
             catch (Exception)
             {
@@ -60,8 +61,8 @@ namespace eaw.build.app.util.mod
             {
                 string newName = bundleName + "_" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 USED_BUNDLE_NAMES.Add(newName);
-                Console.WriteLine(
-                    $"The bundle name \"{bundleName}\" is colliding with the base game bundle of the same name. The bundle will be renamed to \"{newName}\" to avoid conflicts.");
+                Log.Warning(
+                    "The bundle name \"{BundleName}\" is colliding with the base game bundle of the same name. The bundle will be renamed to \"{NewName}\" to avoid conflicts.", bundleName, newName);
                 return newName;
             }
 
@@ -69,8 +70,8 @@ namespace eaw.build.app.util.mod
             {
                 string newName = bundleName + "_" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 USED_BUNDLE_NAMES.Add(newName);
-                Console.WriteLine(
-                    $"The bundle name \"{bundleName}\" is colliding with the game expansion bundle of the same name. The bundle will be renamed to \"{newName}\" to avoid conflicts.");
+                Log.Warning(
+                    "The bundle name \"{BundleName}\" is colliding with the game expansion bundle of the same name. The bundle will be renamed to \"{NewName}\" to avoid conflicts.", bundleName, newName);
                 return newName;
             }
 
@@ -78,8 +79,8 @@ namespace eaw.build.app.util.mod
             {
                 string newName = bundleName + "_" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 USED_BUNDLE_NAMES.Add(newName);
-                Console.WriteLine(
-                    $"The bundle name \"{bundleName}\" is colliding with a previously defined bundle of the same name. The bundle will be renamed to \"{newName}\" to avoid conflicts.");
+                Log.Warning(
+                    "The bundle name \"{BundleName}\" is colliding with a previously defined bundle of the same name. The bundle will be renamed to \"{NewName}\" to avoid conflicts.", bundleName, newName);
                 return newName;
             }
 
