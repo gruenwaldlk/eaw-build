@@ -12,3 +12,9 @@ install:
 - dotnet restore
 script:
 - bash ./.tools/travis-ci-build.sh
+
+cache:
+  directories:
+    - '$HOME/.nuget/packages'
+    - '$HOME/.local/share/NuGet/Cache'
+    - '$HOME/.sonar/cache'

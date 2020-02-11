@@ -11,6 +11,7 @@ namespace eaw.build.test.app.creation.text
     public class TextProjectCreationUnitTest
     {
         [TestMethod]
+        [Ignore]
         [DataRow(TranslationResourceType.Nls)]
         [DataRow(TranslationResourceType.Csv)]
         public void CreateNew_Test(TranslationResourceType t)
