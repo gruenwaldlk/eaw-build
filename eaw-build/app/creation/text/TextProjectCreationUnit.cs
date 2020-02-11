@@ -21,10 +21,12 @@ namespace eaw.build.app.creation.text
         private const TextProjectVersion CURRENT_VERSION = TextProjectVersion.V2;
 
         internal string TextProjectPath { get; }
+        internal TranslationResourceType TranslationResourceType { get; }
 
-        public TextProjectCreationUnit(string textProjectPath)
+        public TextProjectCreationUnit(string textProjectPath, TranslationResourceType translationResourceType = TranslationResourceType.Nls)
         {
             TextProjectPath = textProjectPath;
+            TranslationResourceType = translationResourceType;
         }
 
         public TextProjectVersion GetCurrentVersion()
@@ -39,45 +41,7 @@ namespace eaw.build.app.creation.text
             {
                 try
                 {
-                    StreamTextFileToDisc(translationFileName);
-                    StreamTextFileToDisc(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]);
-                    IEnumerable<Translation> translationsEaW =
-                        DatFileUtility.Import(FilePathUtility.GetTempFile(translationFileName), new CultureInfo(locale));
-                    Dictionary<string, string> eawTranslationMap = new Dictionary<string,string>();
-                    foreach (Translation translation in translationsEaW)
-                    {
-                        eawTranslationMap.TryAdd(translation.Key, translation.Value);
-                    }
-                    IEnumerable<Translation> translationsFoC =
-                        DatFileUtility.Import(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]), new CultureInfo(locale));
-                    List<Translation> cleanedTranslationsFoC = new List<Translation>();
-                    foreach (Translation translation in translationsFoC)
-                    {
-                        if (!eawTranslationMap.ContainsKey(translation.Key))
-                        {
-                            cleanedTranslationsFoC.Add(translation);
-                        }
-                        else
-                        {
-                            string tEaW = eawTranslationMap[translation.Key];
-                            if (string.Compare(translation.Value, tEaW, translation.Locale, CompareOptions.IgnoreSymbols) != 0)
-                            {
-                                cleanedTranslationsFoC.Add(translation);
-                            }
-                        }
-                    }
-                    CreateTranslationResource(translationsEaW, locale, FileType.SortedGameStringFile, TextProjectUtility.EaW.GAME_TYPE,
-                        TextProjectUtility.EaW.OVERRIDE_TYPE);
-                    CreateTranslationResource(cleanedTranslationsFoC, locale, FileType.SortedGameStringFile, TextProjectUtility.FoC.GAME_TYPE,
-                        TextProjectUtility.FoC.OVERRIDE_TYPE);
-                    if (File.Exists(FilePathUtility.GetTempFile(translationFileName)))
-                    {
-                        File.Delete(FilePathUtility.GetTempFile(translationFileName));
-                    }
-                    if (File.Exists(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale])))
-                    {
-                        File.Delete(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]));
-                    }
+                    CreateAllTranslationResources(translationFileName, locale, TranslationResourceType);
                 }
                 catch (Exception e)
                 {
@@ -86,6 +50,55 @@ namespace eaw.build.app.creation.text
                 }
             }
             return errors > 0 ? ExitCode.TextProjectCreationCompletedWithErrors : ExitCode.Success;
+        }
+
+        private void CreateAllTranslationResources(string translationFileName, string locale, TranslationResourceType translationResourceType = TranslationResourceType.Nls)
+        {
+            StreamTextFileToDisc(translationFileName);
+            StreamTextFileToDisc(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]);
+            IEnumerable<Translation> translationsEaW =
+                DatFileUtility.Import(FilePathUtility.GetTempFile(translationFileName), new CultureInfo(locale));
+            Dictionary<string, string> eawTranslationMap = new Dictionary<string, string>();
+            foreach (Translation translation in translationsEaW)
+            {
+                eawTranslationMap.TryAdd(translation.Key, translation.Value);
+            }
+
+            IEnumerable<Translation> translationsFoC =
+                DatFileUtility.Import(
+                    FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]),
+                    new CultureInfo(locale));
+            List<Translation> cleanedTranslationsFoC = new List<Translation>();
+            foreach (Translation translation in translationsFoC)
+            {
+                if (!eawTranslationMap.ContainsKey(translation.Key))
+                {
+                    cleanedTranslationsFoC.Add(translation);
+                }
+                else
+                {
+                    string tEaW = eawTranslationMap[translation.Key];
+                    if (string.Compare(translation.Value, tEaW, translation.Locale, CompareOptions.IgnoreSymbols) != 0)
+                    {
+                        cleanedTranslationsFoC.Add(translation);
+                    }
+                }
+            }
+
+            CreateTranslationResource(translationsEaW, locale, FileType.SortedGameStringFile, TextProjectUtility.EaW.GAME_TYPE,
+                TextProjectUtility.EaW.OVERRIDE_TYPE, translationResourceType);
+            CreateTranslationResource(cleanedTranslationsFoC, locale, FileType.SortedGameStringFile,
+                TextProjectUtility.FoC.GAME_TYPE,
+                TextProjectUtility.FoC.OVERRIDE_TYPE, translationResourceType);
+            if (File.Exists(FilePathUtility.GetTempFile(translationFileName)))
+            {
+                File.Delete(FilePathUtility.GetTempFile(translationFileName));
+            }
+
+            if (File.Exists(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale])))
+            {
+                File.Delete(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]));
+            }
         }
 
         private void CreateTranslationResource(IEnumerable<Translation> translations, string key, FileType fileType,

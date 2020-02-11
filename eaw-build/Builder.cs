@@ -203,15 +203,17 @@ namespace eaw.build
         internal static int Main(string[] args)
         {
             StringWriter helpWriter = new StringWriter();
-            Parser parser = new Parser(with => with.HelpWriter = helpWriter);
-            parser.ParseArguments<MigrationOptions, NewOptions, BuildOptions, CookOptions, ReleaseOptions>(args)
-                .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithParsed<NewOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithParsed<BuildOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithParsed<CookOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithParsed<ReleaseOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
-                .WithNotParsed(errs => HandleErrors(errs, helpWriter));
+            using (Parser parser = new Parser(with => with.HelpWriter = helpWriter))
+            {
+                parser.ParseArguments<MigrationOptions, NewOptions, BuildOptions, CookOptions, ReleaseOptions>(args)
+                    .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<NewOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<BuildOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<CookOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<ReleaseOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithNotParsed(errs => HandleErrors(errs, helpWriter));
+            }
             return Environment.ExitCode;
         }
 

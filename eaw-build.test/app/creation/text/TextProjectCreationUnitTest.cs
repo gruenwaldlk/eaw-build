@@ -1,6 +1,7 @@
 using System.IO;
 using eaw.build.app.creation.text;
 using eaw.build.app.util;
+using eaw.build.data.config.text.v2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace eaw.build.test.app.creation.text
@@ -10,9 +11,11 @@ namespace eaw.build.test.app.creation.text
     public class TextProjectCreationUnitTest
     {
         [TestMethod]
-        public void CreateNew_Test()
+        [DataRow(TranslationResourceType.Nls)]
+        [DataRow(TranslationResourceType.Csv)]
+        public void CreateNew_Test(TranslationResourceType t)
         {
-            TextProjectCreationUnit textProjectCreationUnit = new TextProjectCreationUnit(Path.GetTempPath());
+            TextProjectCreationUnit textProjectCreationUnit = new TextProjectCreationUnit(Path.GetTempPath(), t);
             ExitCode exitCode = textProjectCreationUnit.CreateNew();
             Assert.AreEqual(ExitCode.Success, exitCode);
         }

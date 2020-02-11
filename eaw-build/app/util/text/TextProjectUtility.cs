@@ -7,8 +7,8 @@ namespace eaw.build.app.util.text
 {
     internal static class TextProjectUtility
     {
-        private const string RESOURCE_TYPE_SORTED = "texts";
-        private const string RESOURCE_TYPE_UNSORTED = "credits";
+        internal const string RESOURCE_TYPE_SORTED = "texts";
+        internal const string RESOURCE_TYPE_UNSORTED = "credits";
         private const string RESOURCE_TYPE_DELIMITER = ".";
         private const string RESOURCE_FILE_TYPE_NLS = ".nls";
         private const string RESOURCE_FILE_TYPE_CSV = ".csv";
@@ -27,7 +27,7 @@ namespace eaw.build.app.util.text
             }
         }
 
-        private static string FileTypeToString(FileType fileType)
+        internal static string FileTypeToString(FileType fileType)
         {
             switch (fileType)
             {
@@ -40,8 +40,12 @@ namespace eaw.build.app.util.text
             }
         }
 
-        private static FileType FileTypeFromString(string fileType)
+        internal static FileType FileTypeFromString(string fileType)
         {
+            if (fileType == null)
+            {
+                throw new ArgumentNullException(nameof(fileType));
+            }
             fileType = fileType.Trim().ToLower();
             switch (fileType)
             {
@@ -86,37 +90,37 @@ namespace eaw.build.app.util.text
 
             internal static class De
             {
-                internal static string CULTURE_INFO = "de-DE";
-                internal static string MASTER_TEXT_FILE = "dat.eaw.de.mastertextfile_german.dat";
-                internal static string CREDITS_FILE = "dat.eaw.de.creditstext_german.dat";
+                internal const string CULTURE_INFO = "de-DE";
+                internal const string MASTER_TEXT_FILE = "dat.eaw.de.mastertextfile_german.dat";
+                internal const string CREDITS_FILE = "dat.eaw.de.creditstext_german.dat";
             }
 
             internal static class En
             {
-                internal static string CULTURE_INFO = "en-GB";
-                internal static string MASTER_TEXT_FILE = "dat.eaw.en.mastertextfile_english.dat";
-                internal static string CREDITS_FILE = "dat.eaw.en.creditstext_english.dat";
+                internal const string CULTURE_INFO = "en-GB";
+                internal const string MASTER_TEXT_FILE = "dat.eaw.en.mastertextfile_english.dat";
+                internal const string CREDITS_FILE = "dat.eaw.en.creditstext_english.dat";
             }
 
             internal static class Es
             {
-                internal static string CULTURE_INFO = "es-ES";
-                internal static string MASTER_TEXT_FILE = "dat.eaw.es.mastertextfile_spanish.dat";
-                internal static string CREDITS_FILE = "dat.eaw.es.creditstext_spanish.dat";
+                internal const string CULTURE_INFO = "es-ES";
+                internal const string MASTER_TEXT_FILE = "dat.eaw.es.mastertextfile_spanish.dat";
+                internal const string CREDITS_FILE = "dat.eaw.es.creditstext_spanish.dat";
             }
 
             internal static class Fr
             {
-                internal static string CULTURE_INFO = "fr-FR";
-                internal static string MASTER_TEXT_FILE = "dat.eaw.fr.mastertextfile_french.dat";
-                internal static string CREDITS_FILE = "dat.eaw.fr.creditstext_french.dat";
+                internal const string CULTURE_INFO = "fr-FR";
+                internal const string MASTER_TEXT_FILE = "dat.eaw.fr.mastertextfile_french.dat";
+                internal const string CREDITS_FILE = "dat.eaw.fr.creditstext_french.dat";
             }
 
             internal static class It
             {
-                internal static string CULTURE_INFO = "it-IT";
-                internal static string MASTER_TEXT_FILE = "dat.eaw.it.mastertextfile_italian.dat";
-                internal static string CREDITS_FILE = "dat.eaw.it.creditstext_italian.dat";
+                internal const string CULTURE_INFO = "it-IT";
+                internal const string MASTER_TEXT_FILE = "dat.eaw.it.mastertextfile_italian.dat";
+                internal const string CREDITS_FILE = "dat.eaw.it.creditstext_italian.dat";
             }
         }
 
@@ -152,37 +156,37 @@ namespace eaw.build.app.util.text
 
             internal static class De
             {
-                internal static string CULTURE_INFO = "de-DE";
-                internal static string MASTER_TEXT_FILE = "dat.foc.de.mastertextfile_german.dat";
-                internal static string CREDITS_FILE = "dat.foc.de.creditstext_german.dat";
+                internal const string CULTURE_INFO = "de-DE";
+                internal const string MASTER_TEXT_FILE = "dat.foc.de.mastertextfile_german.dat";
+                internal const string CREDITS_FILE = "dat.foc.de.creditstext_german.dat";
             }
 
             internal static class En
             {
-                internal static string CULTURE_INFO = "en-GB";
-                internal static string MASTER_TEXT_FILE = "dat.foc.en.mastertextfile_english.dat";
-                internal static string CREDITS_FILE = "dat.foc.en.creditstext_english.dat";
+                internal const string CULTURE_INFO = "en-GB";
+                internal const string MASTER_TEXT_FILE = "dat.foc.en.mastertextfile_english.dat";
+                internal const string CREDITS_FILE = "dat.foc.en.creditstext_english.dat";
             }
 
             internal static class Es
             {
-                internal static string CULTURE_INFO = "es-ES";
-                internal static string MASTER_TEXT_FILE = "dat.foc.es.mastertextfile_spanish.dat";
-                internal static string CREDITS_FILE = "dat.foc.es.creditstext_spanish.dat";
+                internal const string CULTURE_INFO = "es-ES";
+                internal const string MASTER_TEXT_FILE = "dat.foc.es.mastertextfile_spanish.dat";
+                internal const string CREDITS_FILE = "dat.foc.es.creditstext_spanish.dat";
             }
 
             internal static class Fr
             {
-                internal static string CULTURE_INFO = "fr-FR";
-                internal static string MASTER_TEXT_FILE = "dat.foc.fr.mastertextfile_french.dat";
-                internal static string CREDITS_FILE = "dat.foc.fr.creditstext_french.dat";
+                internal const string CULTURE_INFO = "fr-FR";
+                internal const string MASTER_TEXT_FILE = "dat.foc.fr.mastertextfile_french.dat";
+                internal const string CREDITS_FILE = "dat.foc.fr.creditstext_french.dat";
             }
 
             internal static class It
             {
-                internal static string CULTURE_INFO = "it-IT";
-                internal static string MASTER_TEXT_FILE = "dat.foc.it.mastertextfile_italian.dat";
-                internal static string CREDITS_FILE = "dat.foc.it.creditstext_italian.dat";
+                internal const string CULTURE_INFO = "it-IT";
+                internal const string MASTER_TEXT_FILE = "dat.foc.it.mastertextfile_italian.dat";
+                internal const string CREDITS_FILE = "dat.foc.it.creditstext_italian.dat";
             }
         }
     }
