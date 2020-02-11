@@ -5,6 +5,7 @@
         <RootNamespace>eaw.build.test</RootNamespace>
 
         <IsPackable>false</IsPackable>
+        <ProjectGuid>{81C3A5AE-E6DB-4D51-B2EE-8FDDE4DEB7AA}</ProjectGuid>
     </PropertyGroup>
 
     <ItemGroup>
