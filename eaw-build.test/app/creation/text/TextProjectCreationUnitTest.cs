@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,6 +54,11 @@ namespace eaw.build.test.app.creation.text
         [DataRow(TranslationResourceType.Csv)]
         public void CreateNew_Test(TranslationResourceType t)
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                Assert.Inconclusive("Not a Windows system. Test Skipped.");
+            }
             TextProjectCreationUnit textProjectCreationUnit = new TextProjectCreationUnit(Path.GetTempPath(), t);
             ExitCode exitCode = textProjectCreationUnit.CreateNew();
             Assert.AreEqual(ExitCode.Success, exitCode);
