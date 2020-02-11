@@ -94,9 +94,8 @@ namespace eaw.build.app.util
             if (Environment.OSVersion.Platform == PlatformID.Unix ||
                 Environment.OSVersion.Platform == PlatformID.MacOSX)
             {
-                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                return Environment.GetEnvironmentVariable("HOME");
             }
-
             return Path.GetTempPath();
         }
 
