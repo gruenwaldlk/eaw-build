@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace eaw.build.app.util
 {
@@ -24,9 +25,10 @@ namespace eaw.build.app.util
             {
                 return path;
             }
+
             string[] pathSplit = path.Split(Path.DirectorySeparatorChar);
             string currPath = "";
-            for (int i = 0; i < pathSplit.Length-1; i++)
+            for (int i = 0; i < pathSplit.Length - 1; i++)
             {
                 currPath = Combine(currPath, pathSplit[i]);
             }
@@ -46,6 +48,7 @@ namespace eaw.build.app.util
             {
                 return Path.GetFullPath(CleanPath(path));
             }
+
             //[Kad] -- FIXME: Path.GetFullPath(...) does not work correctly on Unix systems. Relative path resolving is currently disabled.
             return resolveRelativePaths ? Path.GetFullPath(CleanPath(path)) : CleanPath(path);
         }
@@ -88,6 +91,12 @@ namespace eaw.build.app.util
 
         internal static string GetTempPath()
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            }
+
             return Path.GetTempPath();
         }
 
