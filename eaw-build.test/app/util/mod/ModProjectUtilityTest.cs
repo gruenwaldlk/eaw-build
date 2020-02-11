@@ -1,5 +1,4 @@
-﻿using eaw.build.app.migration.mod;
-using eaw.build.app.util.game;
+﻿using eaw.build.app.util.game;
 using eaw.build.app.util.mod;
 using eaw.build.app.version.mod;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

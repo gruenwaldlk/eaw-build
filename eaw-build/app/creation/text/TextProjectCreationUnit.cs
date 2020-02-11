@@ -2,16 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using eaw.build.app.migration.mod;
 using eaw.build.app.util;
 using eaw.build.app.util.text;
 using eaw.build.app.version.text;
-using eaw.build.data.config.text;
 using eaw.build.data.config.text.v2;
 using pg.dat;
 using pg.dat.utility;
-using pg.util;
 using Serilog;
 
 namespace eaw.build.app.creation.text
