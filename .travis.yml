@@ -6,12 +6,21 @@ addons:
   sonarcloud:
     organization: "kv"
 
-before_install:
-- bash ./.tools/travis-ci-install-sonar.sh
+solution: eaw-build/eaw-build.csproj
+
 install:
-- dotnet restore
+  - dotnet tool install --global dotnet-sonarscanner
+  - dotnet restore eaw-build/eaw-build.csproj
+  - dotnet restore eaw-build.test/eaw-build.test.csproj
+
+before_script:
+  - export PATH="$PATH:$HOME/.dotnet/tools"
+
 script:
-- bash ./.tools/travis-ci-build.sh
+  - dotnet sonarscanner begin /k:$SONAR_PROJECT /o:$SONAR_ORGANIZATION /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login=$SONAR_TOKEN /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml" || true
+  - dotnet build eaw-build/eaw-build.csproj
+  - dotnet test eaw-build.test/eaw-build.test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../lcov
+  - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN || true
 
 cache:
   directories:
