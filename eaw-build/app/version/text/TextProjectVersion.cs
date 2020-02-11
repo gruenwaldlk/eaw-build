@@ -1,4 +1,4 @@
-﻿namespace eaw.build.app.migration.text
+﻿namespace eaw.build.app.version.text
 {
     internal enum TextProjectVersion
     {

@@ -1,22 +1,21 @@
 using System;
-using eaw.build.app.migration;
 using eaw.build.app.migration.mod;
 using eaw.build.app.util;
-using pg.util;
 using Serilog;
 
 namespace eaw.build.app
 {
     internal sealed class Executor
     {
-        internal static ExitCode Run(Options options)
+        internal static ExitCode Run(OptionsWrapper optionsWrapper)
         {
-            if (options.InternalType == typeof(Builder.MigrationOptions))
+            if (optionsWrapper.InternalType == typeof(Builder.MigrationOptions))
             {
-                Builder.MigrationOptions o = (Builder.MigrationOptions) options.Option;
+                Builder.MigrationOptions o = (Builder.MigrationOptions) optionsWrapper.Option;
                 return Migrate(o);
             }
-            Log.Error("The tool was provided with an invalid options set {@Options}", options);
+
+            Log.Error("The tool was provided with an invalid options set {@Options}", optionsWrapper);
             return ExitCode.Error;
         }
 
@@ -51,7 +50,7 @@ namespace eaw.build.app
 
         private static ExitCode MigrateModProject(string configurationFilePath)
         {
-            IMigrationUnit migrationUnit = new ModProjectMigrationUnit(configurationFilePath);
+            ModProjectMigrationUnit migrationUnit = new ModProjectMigrationUnit(configurationFilePath);
             return migrationUnit.Migrate();
         }
 

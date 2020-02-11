@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace eaw.build.test.app.util
 {
     [TestClass]
+    [TestCategory(TestUtility.TEST_TYPE_UTILITY)]
     public class FilePathUtilityTest
     {
         [TestMethod]

@@ -1,4 +1,4 @@
-namespace eaw.build.app.migration.mod
+namespace eaw.build.app.version.mod
 {
     internal enum ModProjectVersion
     {

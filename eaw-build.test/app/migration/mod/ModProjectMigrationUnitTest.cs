@@ -2,11 +2,13 @@
 using System.IO;
 using eaw.build.app.migration.mod;
 using eaw.build.app.util.mod;
+using eaw.build.app.version.mod;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace eaw.build.test.app.migration.mod
 {
     [TestClass]
+    [TestCategory(TestUtility.TEST_TYPE_HOLY)]
     public class ModProjectMigrationUnitTest
     {
         private const string MIGRATE_TO_FILE = "ModProjectMigrationUnitTest_V1_Migration.xml";

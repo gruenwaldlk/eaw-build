@@ -85,5 +85,15 @@ namespace eaw.build.app.util
 
             return cleanedPath;
         }
+
+        internal static string GetTempPath()
+        {
+            return Path.GetTempPath();
+        }
+
+        internal static string GetTempFile(string tempFileName = "eawbld.tmp")
+        {
+            return Combine(GetTempPath(), tempFileName);
+        }
     }
 }

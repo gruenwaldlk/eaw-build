@@ -9,6 +9,9 @@ namespace eaw.build.test
     [TestClass]
     public static class TestUtility
     {
+        public const string TEST_TYPE_UTILITY = "Utility";
+        public const string TEST_TYPE_HOLY = "Holy";
+
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext testContext)
         {
@@ -44,8 +47,12 @@ namespace eaw.build.test
             {
                 internal static class V1
                 {
-                    private const string TEST_CONFIG_VALID = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModBuildConfig>\n  <ModSettings Name=\"Test Mod\" ShortName=\"TM\" Version=\"1.2.3\" ReleaseType=\"Full\" />\n  <BuildSettings>\n    <Localisation LocalisationFile=\"TranslationManifest.xml\" />\n    <Bundle Name=\"Bundle01\">\n      <Directory FilePattern=\"*.xml\" Recurse=\"true\">data/xml/test1</Directory>\n      <Directory FilePattern=\"*.xml\" >data/xml/test2</Directory>\n      <File>data/xml/test1.xml</File>\n    </Bundle>\n    <Bundle Name=\"Bundle02\">\n      <Directory FilePattern=\"*.xml\" Recurse=\"true\">data/xml/test3</Directory>\n      <Directory FilePattern=\"*.xml\" >data/xml/test4</Directory>\n      <File>data/xml/test2.xml</File>\n    </Bundle>\n  </BuildSettings>\n</ModBuildConfig>";
-                    private const string TEST_CONFIG_INVALID = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModBuildConfig>\n  <ModSettings ShortName=\"TM\" Version=\"1.2.3\" ReleaseType=\"Full\" />\n  <BuildSettings>\n    <Localisation LocalisationFile=\"TranslationManifest.xml\" />\n  </BuildSettings>\n</ModBuildConfig>";
+                    private const string TEST_CONFIG_VALID =
+                        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModBuildConfig>\n  <ModSettings Name=\"Test Mod\" ShortName=\"TM\" Version=\"1.2.3\" ReleaseType=\"Full\" />\n  <BuildSettings>\n    <Localisation LocalisationFile=\"TranslationManifest.xml\" />\n    <Bundle Name=\"Bundle01\">\n      <Directory FilePattern=\"*.xml\" Recurse=\"true\">data/xml/test1</Directory>\n      <Directory FilePattern=\"*.xml\" >data/xml/test2</Directory>\n      <File>data/xml/test1.xml</File>\n    </Bundle>\n    <Bundle Name=\"Bundle02\">\n      <Directory FilePattern=\"*.xml\" Recurse=\"true\">data/xml/test3</Directory>\n      <Directory FilePattern=\"*.xml\" >data/xml/test4</Directory>\n      <File>data/xml/test2.xml</File>\n    </Bundle>\n  </BuildSettings>\n</ModBuildConfig>";
+
+                    private const string TEST_CONFIG_INVALID =
+                        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModBuildConfig>\n  <ModSettings ShortName=\"TM\" Version=\"1.2.3\" ReleaseType=\"Full\" />\n  <BuildSettings>\n    <Localisation LocalisationFile=\"TranslationManifest.xml\" />\n  </BuildSettings>\n</ModBuildConfig>";
+
                     private const string TEST_FILE_NAME_VALID = "ModConfigV1TestFile.xml";
                     private const string TEST_FILE_NAME_INVALID = "ModConfigV1TestFileInvalid.xml";
 
@@ -65,7 +72,9 @@ namespace eaw.build.test
 
                     internal static string GetTestConfigFilePath(bool valid = true)
                     {
-                        return valid ? Path.Combine(GetBasePath(), TEST_FILE_NAME_VALID) : Path.Combine(Path.GetTempPath(), TEST_FILE_NAME_INVALID);
+                        return valid
+                            ? Path.Combine(GetBasePath(), TEST_FILE_NAME_VALID)
+                            : Path.Combine(Path.GetTempPath(), TEST_FILE_NAME_INVALID);
                     }
 
                     internal static void GenerateTestFile(bool valid = true)
@@ -98,6 +107,6 @@ namespace eaw.build.test
                     }
                 }
             }
-        } 
+        }
     }
 }

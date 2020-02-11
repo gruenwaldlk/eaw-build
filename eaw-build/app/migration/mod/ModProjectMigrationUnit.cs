@@ -5,17 +5,23 @@ using System.Linq;
 using eaw.build.app.util;
 using eaw.build.app.util.mod;
 using eaw.build.app.util.xml;
+using eaw.build.app.version.mod;
 using eaw.build.data.config.mod.v1;
 using eaw.build.data.config.mod.v2;
 using Serilog;
 
 namespace eaw.build.app.migration.mod
 {
-    internal class ModProjectMigrationUnit : IMigrationUnit
+    internal class ModProjectMigrationUnit : IMigrationUnit<ModProjectVersion>
     {
         private const ModProjectVersion CURRENT_VERSION = ModProjectVersion.V2;
         private const string MISSING = "MISSING";
         private const string MISSING_VERSION = "0.1.0";
+
+        public ModProjectVersion GetCurrentVersion()
+        {
+            return CURRENT_VERSION;
+        }
 
         internal string OldFilePath { get; }
 

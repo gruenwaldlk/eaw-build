@@ -2,7 +2,7 @@ using System;
 
 namespace eaw.build.app.util
 {
-    internal class Options
+    internal class OptionsWrapper
     {
         internal object Option { get; }
 
@@ -49,7 +49,7 @@ namespace eaw.build.app.util
             }
         }
 
-        internal Options(object option)
+        internal OptionsWrapper(object option)
         {
             Option = option ?? throw new ArgumentNullException(nameof(option));
         }

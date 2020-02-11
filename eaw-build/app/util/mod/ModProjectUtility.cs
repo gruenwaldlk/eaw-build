@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using eaw.build.app.migration.mod;
 using eaw.build.app.util.game;
 using eaw.build.app.util.xml;
+using eaw.build.app.version.mod;
 using eaw.build.data.config.mod.v1;
 using eaw.build.data.config.mod.v2;
 using Serilog;
