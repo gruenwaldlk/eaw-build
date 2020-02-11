@@ -72,5 +72,12 @@ namespace eaw.build.test.app.migration.mod
                 ModProjectMigrationUnit.V2.DEFAULT_CONFIGURATION_FILE_NAME));
             Assert.AreEqual(ModProjectVersion.V2, actual);
         }
+
+        [TestMethod]
+        public void GetCurrentVersion_Test()
+        {
+            ModProjectMigrationUnit modProjectMigrationUnit = new ModProjectMigrationUnit("a","b");
+            Assert.AreNotEqual(modProjectMigrationUnit.GetCurrentVersion(), ModProjectVersion.Invalid);
+        }
     }
 }
