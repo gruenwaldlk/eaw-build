@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace eaw.build.app.util
 {
@@ -96,6 +95,7 @@ namespace eaw.build.app.util
             {
                 return Environment.GetEnvironmentVariable("HOME");
             }
+
             return Path.GetTempPath();
         }
 

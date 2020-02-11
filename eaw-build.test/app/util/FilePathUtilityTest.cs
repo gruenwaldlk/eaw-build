@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using eaw.build.app.util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -81,6 +82,14 @@ namespace eaw.build.test.app.util
 
             string actual = FilePathUtility.ValidatePath(path);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetTempPath_Test()
+        {
+            string tempPath = FilePathUtility.GetTempPath();
+            Console.WriteLine($"Temporary directory: {tempPath}");
+            Assert.IsTrue(Directory.Exists(tempPath));
         }
     }
 }
