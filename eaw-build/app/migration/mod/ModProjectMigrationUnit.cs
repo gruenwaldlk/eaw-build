@@ -66,7 +66,7 @@ namespace eaw.build.app.migration.mod
                 };
                 if (string.IsNullOrWhiteSpace(NewFilePath))
                 {
-                    NewFilePath = FilePathUtility.Combine(FilePathUtility.GetDirectoryPathFromFilePath(OldFilePath),
+                    NewFilePath = PathUtility.Combine(PathUtility.GetDirectoryPathFromFilePath(OldFilePath),
                         V2.DEFAULT_CONFIGURATION_FILE_NAME);
                     Log.Debug("Migrating to {NewFilePath}", NewFilePath);
                 }

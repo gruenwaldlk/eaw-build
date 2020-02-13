@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using eaw.build.app.util;
 using eaw.build.app.util.text;
 using eaw.build.app.version.text;
@@ -15,11 +16,10 @@ namespace eaw.build.app.creation.text
     internal class TextProjectCreationUnit : ICreationUnit<TextProjectVersion>
     {
         private const TextProjectVersion CURRENT_VERSION = TextProjectVersion.V2;
-
         internal string TextProjectPath { get; }
         internal TranslationResourceType TranslationResourceType { get; }
 
-        public TextProjectCreationUnit(string textProjectPath, TranslationResourceType translationResourceType = TranslationResourceType.Nls)
+        internal TextProjectCreationUnit(string textProjectPath, TranslationResourceType translationResourceType = TranslationResourceType.Nls)
         {
             TextProjectPath = textProjectPath;
             TranslationResourceType = translationResourceType;
@@ -53,7 +53,7 @@ namespace eaw.build.app.creation.text
             StreamTextFileToDisc(translationFileName);
             StreamTextFileToDisc(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]);
             IEnumerable<Translation> translationsEaW =
-                DatFileUtility.Import(FilePathUtility.GetTempFile(translationFileName), new CultureInfo(locale));
+                DatFileUtility.Import(PathUtility.GetTempFile(translationFileName), new CultureInfo(locale));
             Dictionary<string, string> eawTranslationMap = new Dictionary<string, string>();
             foreach (Translation translation in translationsEaW)
             {
@@ -62,7 +62,7 @@ namespace eaw.build.app.creation.text
 
             IEnumerable<Translation> translationsFoC =
                 DatFileUtility.Import(
-                    FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]),
+                    PathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]),
                     new CultureInfo(locale));
             List<Translation> cleanedTranslationsFoC = new List<Translation>();
             foreach (Translation translation in translationsFoC)
@@ -86,14 +86,14 @@ namespace eaw.build.app.creation.text
             CreateTranslationResource(cleanedTranslationsFoC, locale, FileType.SortedGameStringFile,
                 TextProjectUtility.FoC.GAME_TYPE,
                 TextProjectUtility.FoC.OVERRIDE_TYPE, translationResourceType);
-            if (File.Exists(FilePathUtility.GetTempFile(translationFileName)))
+            if (File.Exists(PathUtility.GetTempFile(translationFileName)))
             {
-                File.Delete(FilePathUtility.GetTempFile(translationFileName));
+                File.Delete(PathUtility.GetTempFile(translationFileName));
             }
 
-            if (File.Exists(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale])))
+            if (File.Exists(PathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale])))
             {
-                File.Delete(FilePathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]));
+                File.Delete(PathUtility.GetTempFile(TextProjectUtility.FoC.GetCultureInfoToTranslationMap()[locale]));
             }
         }
 
@@ -117,7 +117,7 @@ namespace eaw.build.app.creation.text
         private void CreateTranslationResourceNls(IEnumerable<Translation> translations, string key, FileType fileType, GameType gameType,
             OverrideType overrideType)
         {
-            using (StreamWriter writer = new StreamWriter(FilePathUtility.Combine(TextProjectPath,
+            using (StreamWriter writer = PathUtility.GetStreamWriter(PathUtility.Combine(TextProjectPath,
                 TextProjectUtility.GetTranslationResourceFileName(key, fileType, gameType, overrideType))))
             {
                 foreach (Translation translation in translations)
@@ -130,7 +130,7 @@ namespace eaw.build.app.creation.text
         private void CreateTranslationResourceCsv(IEnumerable<Translation> translations, string key, FileType fileType, GameType gameType,
             OverrideType overrideType)
         {
-            using (StreamWriter writer = new StreamWriter(FilePathUtility.Combine(TextProjectPath,
+            using (StreamWriter writer = PathUtility.GetStreamWriter(PathUtility.Combine(TextProjectPath,
                 TextProjectUtility.GetTranslationResourceFileName(key, fileType, gameType, overrideType, TranslationResourceType.Csv))))
             {
                 writer.WriteLine($"KEY, VALUE");
@@ -146,7 +146,7 @@ namespace eaw.build.app.creation.text
             using (Stream tmpFile =
                 ResourceUtility.GetResourceAsStreamByFileName(resourceName))
             {
-                using (Stream f = File.Create(FilePathUtility.GetTempFile(resourceName)))
+                using (Stream f = PathUtility.FileCreate(PathUtility.GetTempFile(resourceName)))
                 {
                     tmpFile.CopyTo(f);
                 }

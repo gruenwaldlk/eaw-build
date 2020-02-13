@@ -25,7 +25,7 @@ namespace eaw.build.test.app.util
                 Assert.Inconclusive("Not a Windows system. Test Skipped.");
             }
 
-            string actual = FilePathUtility.Combine(requiredBase, strings);
+            string actual = PathUtility.Combine(requiredBase, strings);
             Assert.AreEqual(expected, actual);
         }
 
@@ -44,7 +44,7 @@ namespace eaw.build.test.app.util
                 Assert.Inconclusive("Not a Unix system. Test Skipped.");
             }
 
-            string actual = FilePathUtility.Combine(requiredBase, strings);
+            string actual = PathUtility.Combine(requiredBase, strings);
             Assert.AreEqual(expected, actual);
         }
 
@@ -61,7 +61,7 @@ namespace eaw.build.test.app.util
                 Assert.Inconclusive("Not a Windows system. Test Skipped.");
             }
 
-            string actual = FilePathUtility.ValidatePath(path);
+            string actual = PathUtility.ValidatePath(path);
             Assert.AreEqual(expected, actual);
         }
 
@@ -80,14 +80,14 @@ namespace eaw.build.test.app.util
                 Assert.Inconclusive("Not a Unix system. Test Skipped.");
             }
 
-            string actual = FilePathUtility.ValidatePath(path);
+            string actual = PathUtility.ValidatePath(path);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetTempPath_Test()
         {
-            string tempPath = FilePathUtility.GetTempPath();
+            string tempPath = PathUtility.GetTempPath();
             Console.WriteLine($"Temporary directory: {tempPath}");
             Assert.IsTrue(Directory.Exists(tempPath));
         }

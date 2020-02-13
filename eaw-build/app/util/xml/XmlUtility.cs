@@ -35,10 +35,12 @@ namespace eaw.build.app.util.xml
             settings.ValidationEventHandler +=
                 (sender, arguments) => throw new XmlSchemaValidationException(arguments.Message);
 
-            using (Stream xmlStream = File.OpenRead(xmlFilePath))
-            using (XmlReader reader = XmlReader.Create(xmlStream, settings))
+            using (Stream xmlStream = PathUtility.FileOpenRead(xmlFilePath))
             {
-                xmlData = (T) xmlDataSerializer.Deserialize(reader);
+                using (XmlReader reader = XmlReader.Create(xmlStream, settings))
+                {
+                    xmlData = (T) xmlDataSerializer.Deserialize(reader);
+                }
             }
 
             if (xmlData != null)
@@ -52,13 +54,14 @@ namespace eaw.build.app.util.xml
         internal static void WriteXmlFile<T>(string filePath, T content, bool prettyPrint = true)
         {
             XmlSerializer xmlDataSerializer = new XmlSerializer(typeof(T));
-            using (XmlWriter xmlWriter = XmlWriter.Create(filePath, new XmlWriterSettings()
-            {
-                Encoding = Encoding.UTF8,
-                Indent = prettyPrint,
-                CheckCharacters = true,
-                OmitXmlDeclaration = true
-            }))
+            using (XmlWriter xmlWriter = XmlWriter.Create(PathUtility.FileCreate(filePath),
+                new XmlWriterSettings()
+                {
+                    Encoding = Encoding.UTF8,
+                    Indent = prettyPrint,
+                    CheckCharacters = true,
+                    OmitXmlDeclaration = true
+                }))
             {
                 xmlDataSerializer.Serialize(xmlWriter, content);
             }

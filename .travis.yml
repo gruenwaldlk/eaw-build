@@ -27,15 +27,15 @@ jobs:
       script: dotnet build eaw-build/eaw-build.csproj
     - stage: test
       name: "MSTest"
-      script: dotnet test eaw-build.test/eaw-build.test.csproj
+      script: dotnet test -c Test eaw-build.test/eaw-build.test.csproj
     - stage: test
       name: "SonarQube"
       script:
         - dotnet sonarscanner begin /k:$SONAR_PROJECT /o:$SONAR_ORGANIZATION /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login=$SONAR_TOKEN /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.coverage.exclusions="eaw-build.test/**,**/*Tests.cs,**/TestUtility.cs" /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml" || true
-        - dotnet build eaw-build/eaw-build.csproj
-        - dotnet test eaw-build.test/eaw-build.test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../lcov
+        - dotnet build -c Test eaw-build/eaw-build.csproj
+        - dotnet test -c Test eaw-build.test/eaw-build.test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../lcov
         - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN || true
-      
+
 cache:
   directories:
     - '$HOME/.nuget/packages'

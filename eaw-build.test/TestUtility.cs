@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Xml.Serialization;
+using eaw.build.app.util;
 using eaw.build.data.config.mod.v1;
 using eaw.build.data.config.mod.v2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,7 +28,7 @@ namespace eaw.build.test
 
         public static string GetBasePath()
         {
-            return Path.GetTempPath();
+            return PathUtility.GetTempPath();
         }
 
         private static void DeleteRequiredFiles()
@@ -73,21 +75,27 @@ namespace eaw.build.test
                     internal static string GetTestConfigFilePath(bool valid = true)
                     {
                         return valid
-                            ? Path.Combine(GetBasePath(), TEST_FILE_NAME_VALID)
-                            : Path.Combine(Path.GetTempPath(), TEST_FILE_NAME_INVALID);
+                            ? PathUtility.Combine(GetBasePath(), TEST_FILE_NAME_VALID)
+                            : PathUtility.Combine(PathUtility.GetTempPath(), TEST_FILE_NAME_INVALID);
                     }
 
                     internal static void GenerateTestFile(bool valid = true)
                     {
+#if TEST
+                        ((MockFileSystem) PathUtility.FILE_SYSTEM).AddDirectory(GetBasePath());
+                        ((MockFileSystem) PathUtility.FILE_SYSTEM).AddFile(GetTestConfigFilePath(valid),
+                            new MockFileData(GetTestConfigAsString(valid)));
+#else
                         using (StreamWriter writer = new StreamWriter(GetTestConfigFilePath(valid)))
                         {
                             writer.Write(GetTestConfigAsString(valid));
                         }
+#endif
                     }
 
                     internal static void DeleteTestFile(bool valid = true)
                     {
-                        File.Delete(GetTestConfigFilePath(valid));
+                        PathUtility.DeleteFile(GetTestConfigFilePath(valid));
                     }
                 }
 

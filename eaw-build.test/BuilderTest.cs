@@ -24,19 +24,10 @@ namespace eaw.build.test
 
         private static void CleanupMigrationFiles()
         {
-            if (File.Exists(Path.Combine(TestUtility.GetBasePath(),
-                ModProjectMigrationUnit.V1.DEFAULT_CONFIGURATION_FILE_NAME)))
-            {
-                File.Delete(Path.Combine(TestUtility.GetBasePath(),
-                    ModProjectMigrationUnit.V1.DEFAULT_CONFIGURATION_FILE_NAME));
-            }
-
-            if (File.Exists(Path.Combine(TestUtility.GetBasePath(),
-                ModProjectMigrationUnit.V2.DEFAULT_CONFIGURATION_FILE_NAME)))
-            {
-                File.Delete(Path.Combine(TestUtility.GetBasePath(),
-                    ModProjectMigrationUnit.V2.DEFAULT_CONFIGURATION_FILE_NAME));
-            }
+            PathUtility.DeleteFile(PathUtility.Combine(TestUtility.GetBasePath(),
+                ModProjectMigrationUnit.V1.DEFAULT_CONFIGURATION_FILE_NAME));
+            PathUtility.DeleteFile(PathUtility.Combine(TestUtility.GetBasePath(),
+                ModProjectMigrationUnit.V2.DEFAULT_CONFIGURATION_FILE_NAME));
         }
 
         [TestMethod]
