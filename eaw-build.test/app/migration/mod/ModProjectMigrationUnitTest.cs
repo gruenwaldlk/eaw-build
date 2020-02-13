@@ -50,12 +50,6 @@ namespace eaw.build.test.app.migration.mod
         [TestMethod]
         public void MigrateV1_Test_MigrationTargetNotProvided()
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix ||
-                Environment.OSVersion.Platform == PlatformID.MacOSX)
-            {
-                Assert.Inconclusive("Not a Windows platform. Test Skipped.");
-            }
-
             string migrateFromFile = TestUtility.Mod.Config.V1.GetTestConfigFilePath();
             ModProjectMigrationUnit migrationUnit = new ModProjectMigrationUnit(migrateFromFile);
             ExitCode exitCode = migrationUnit.Migrate();

@@ -7,8 +7,40 @@ namespace eaw.build.test.app.util
 {
     [TestClass]
     [TestCategory(TestUtility.TEST_TYPE_UTILITY)]
-    public class FilePathUtilityTest
+    public class PathUtilityTest
     {
+
+        [TestMethod]
+        [DataRow(null, "")]
+        [DataRow("", "")]
+        [DataRow("C:\\a\\test\\file.exe", "C:\\a\\test")]
+        public void GetDirectoryPathFromFilePath_TestWindows(string filePath, string expectedPath)
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                Assert.Inconclusive("Not a Windows system. Test Skipped.");
+            }
+
+            string actual = PathUtility.GetDirectoryPathFromFilePath(filePath);
+            Assert.AreEqual(expectedPath, actual);
+        }
+
+        [TestMethod]
+        [DataRow(null, "")]
+        [DataRow("", "")]
+        [DataRow("/a/test/file.exe", "/a/test")]
+        public void GetDirectoryPathFromFilePath_TestLinux(string filePath, string expectedPath)
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+            {
+                Assert.Inconclusive("Not a Unix system. Test Skipped.");
+            }
+
+            string actual = PathUtility.GetDirectoryPathFromFilePath(filePath);
+            Assert.AreEqual(expectedPath, actual);
+        }
+
         [TestMethod]
         [DataRow("", "", new string[0])]
         [DataRow("C:\\some\\file\\path.exe", "C:/some/file\\path.exe", new string[0])]
@@ -88,8 +120,15 @@ namespace eaw.build.test.app.util
         public void GetTempPath_Test()
         {
             string tempPath = PathUtility.GetTempPath();
-            Console.WriteLine($"Temporary directory: {tempPath}");
-            Assert.IsTrue(Directory.Exists(tempPath));
+            Assert.IsTrue(PathUtility.DirectoryExists(tempPath));
+        }
+
+        [TestMethod]
+        public void GetTempFile_Test()
+        {
+            string tempPath = PathUtility.GetTempFile();
+            PathUtility.FileCreate(tempPath);
+            Assert.IsTrue(PathUtility.FileExists(tempPath));
         }
     }
 }

@@ -24,31 +24,7 @@ namespace eaw.build.app.util
 
         internal static string GetDirectoryPathFromFilePath(string filePath)
         {
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                return string.Empty;
-            }
-
-            string path = ValidatePath(filePath);
-            if (Environment.OSVersion.Platform != PlatformID.Unix &&
-                Environment.OSVersion.Platform != PlatformID.MacOSX)
-            {
-                return FILE_SYSTEM.Path.GetDirectoryName(path);
-            }
-
-            if (path.LastOrDefault().Equals(FILE_SYSTEM.Path.DirectorySeparatorChar))
-            {
-                return path;
-            }
-
-            string[] pathSplit = path.Split(FILE_SYSTEM.Path.DirectorySeparatorChar);
-            string currPath = "";
-            for (int i = 0; i < pathSplit.Length - 1; i++)
-            {
-                currPath = Combine(currPath, pathSplit[i]);
-            }
-
-            return currPath;
+            return string.IsNullOrWhiteSpace(filePath) ? string.Empty : FILE_SYSTEM.Path.GetDirectoryName(filePath);
         }
 
         internal static string ValidatePath(string path, bool resolveRelativePaths = false)
@@ -131,6 +107,11 @@ namespace eaw.build.app.util
         internal static bool FileExists(string filePath)
         {
             return FILE_SYSTEM.File.Exists(filePath);
+        }
+
+        internal static bool DirectoryExists(string directoryPath)
+        {
+            return FILE_SYSTEM.Directory.Exists(directoryPath);
         }
 
         internal static IEnumerable<string> GetFiles(string directoryPath, string filter = null)
