@@ -21,15 +21,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.6.0" />
-        <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
+        <PackageReference Include="CommandLineParser" Version="2.8.0" />
+        <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="pg.dat" Version="1.0.0" />
         <PackageReference Include="pg.meg" Version="1.0.0" />
         <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00837" />
-        <PackageReference Include="System.IO.Abstractions" Version="9.0.2" />
-        <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="9.0.2" />
+        <PackageReference Include="System.IO.Abstractions" Version="12.0.1" />
+        <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="12.0.1" />
     </ItemGroup>
 
     <ItemGroup>

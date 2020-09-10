@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace eaw.build.test.app.creation.text
 {
     [TestClass]
+    [Ignore]
     [TestCategory(TestUtility.TEST_TYPE_HOLY)]
     public class TextProjectCreationUnitTest
     {
@@ -28,7 +29,9 @@ namespace eaw.build.test.app.creation.text
 
         private static void CleanupMigrationFiles()
         {
-            foreach (KeyValuePair<string, string> keyValuePair in TextProjectUtility.EaW.GetCultureInfoToTranslationMap().Where(keyValuePair => File.Exists(PathUtility.GetTempFile(keyValuePair.Value))))
+            foreach (KeyValuePair<string, string> keyValuePair in TextProjectUtility.EaW
+                .GetCultureInfoToTranslationMap()
+                .Where(keyValuePair => File.Exists(PathUtility.GetTempFile(keyValuePair.Value))))
             {
                 PathUtility.DeleteFile(PathUtility.GetTempFile(keyValuePair.Value));
             }
@@ -45,7 +48,7 @@ namespace eaw.build.test.app.creation.text
         }
 
         [TestMethod]
-        [Ignore]
+        [Ignore] // TODO - [kad]: These tests won't work, because the underlying library cannot handle the abstracted file system.
         [DataRow(TranslationResourceType.Nls)]
         [DataRow(TranslationResourceType.Csv)]
         public void CreateNew_Test(TranslationResourceType t)
@@ -55,6 +58,7 @@ namespace eaw.build.test.app.creation.text
             {
                 Assert.Inconclusive("Not a Windows system. Test Skipped.");
             }
+
             TextProjectCreationUnit textProjectCreationUnit = new TextProjectCreationUnit(Path.GetTempPath(), t);
             ExitCode exitCode = textProjectCreationUnit.CreateNew();
             Assert.AreEqual(ExitCode.Success, exitCode);

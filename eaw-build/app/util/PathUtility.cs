@@ -131,17 +131,11 @@ namespace eaw.build.app.util
 
         internal static StreamWriter GetStreamWriter(string filePath)
         {
-#if TEST
-            ((MockFileSystem) FILE_SYSTEM).AddFile(filePath, new MockFileData("\0"));
-#endif
-            return FILE_SYSTEM.File.CreateText(filePath);
+            return new StreamWriter(FILE_SYSTEM.File.Create(filePath));
         }
 
         internal static Stream FileCreate(string filePath)
         {
-#if TEST
-            ((MockFileSystem) FILE_SYSTEM).AddFile(filePath, new MockFileData("\0"));
-#endif
             return FILE_SYSTEM.File.Create(filePath);
         }
     }
