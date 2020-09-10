@@ -1,11 +1,12 @@
-﻿using eaw.build.app.migration.mod;
-using eaw.build.app.util.game;
+﻿using eaw.build.app.util.game;
 using eaw.build.app.util.mod;
+using eaw.build.app.version.mod;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace eaw.build.test.app.util.mod
 {
     [TestClass]
+    [TestCategory(TestUtility.TEST_TYPE_UTILITY)]
     public class ModProjectUtilityTest
     {
         [TestInitialize]
@@ -17,8 +18,8 @@ namespace eaw.build.test.app.util.mod
         public void TestCleanup()
         {
             ModProjectUtility.Reset();
-        } 
-        
+        }
+
         [TestMethod]
         public void GetProjectVersionFromConfigFile_Test_Expected_V1()
         {
@@ -26,7 +27,7 @@ namespace eaw.build.test.app.util.mod
                 ModProjectUtility.GetProjectVersionFromConfigFile(TestUtility.Mod.Config.V1.GetTestConfigFilePath());
             Assert.AreEqual(ModProjectVersion.V1, modProjectVersion);
         }
-        
+
         [TestMethod]
         public void GetProjectVersionFromConfigFile_Test_Expected_Invalid_V1()
         {
@@ -49,7 +50,7 @@ namespace eaw.build.test.app.util.mod
             Assert.AreEqual(expected2, actual2);
             Assert.AreNotEqual(actual1, actual2);
         }
-        
+
         [TestMethod]
         [DataRow("test1","test1")]
         [DataRow("test2","test2")]
@@ -73,7 +74,7 @@ namespace eaw.build.test.app.util.mod
                 Assert.AreNotEqual(bundleName, actual);
             }
         }
-        
+
         [TestMethod]
         public void CheckAndUpdateBundleName_Test_ConflictWithExpansionBundle()
         {

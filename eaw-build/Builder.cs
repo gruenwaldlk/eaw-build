@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.CompilerServices;
 using CommandLine;
 using eaw.build.app;
 using eaw.build.app.util;
+using Serilog;
 
 // [Kad] Disable ReSharper annotations. Following up on the suggestions would break the commandline parsing.
 // ReSharper disable ClassNeverInstantiated.Global
@@ -31,18 +34,21 @@ namespace eaw.build
 {
     internal class Builder
     {
-        [Verb("migrate", HelpText = "Migrate a yvaw-build project to an eaw-build project.")]
+        [Verb("migrate", HelpText = "Migrate older project versions to the current project versions.")]
         public class MigrationOptions
         {
             private readonly bool _modProjectMigration;
             private readonly bool _translationMigration;
             private readonly string _configurationFilePath;
+            private readonly bool _verbose;
 
-            public MigrationOptions(bool modProjectMigration, bool translationMigration, string configurationFilePath)
+            public MigrationOptions(bool modProjectMigration, bool translationMigration, string configurationFilePath,
+                bool verbose)
             {
                 _modProjectMigration = modProjectMigration;
                 _translationMigration = translationMigration;
                 _configurationFilePath = configurationFilePath;
+                _verbose = verbose;
             }
 
             [Option('m', "mod", Required = true, Default = false, SetName = nameof(ModProjectMigration),
@@ -59,6 +65,10 @@ namespace eaw.build
                 HelpText =
                     "The path to the configuration file to migrate. If the path contains spaces, wrap it in quotation marks (\").")]
             public string ConfigurationFilePath => _configurationFilePath;
+
+            [Option('v', "verbose", Required = false, Default = false,
+                HelpText = "Prints all messages to standard output.")]
+            public bool Verbose => _verbose;
         }
 
         [Verb("new", HelpText = "Initialises a new EaW mod project.", Hidden = true)]
@@ -69,14 +79,17 @@ namespace eaw.build
             private readonly string _eawPath;
             private readonly string _focPath;
             private readonly bool _createGitRepository;
+            private readonly bool _verbose;
 
-            public NewOptions(string modName, string path, string eawPath, string focPath, bool createGitRepository)
+            public NewOptions(string modName, string path, string eawPath, string focPath, bool createGitRepository,
+                bool verbose)
             {
                 _modName = modName;
                 _path = path;
                 _eawPath = eawPath;
                 _focPath = focPath;
                 _createGitRepository = createGitRepository;
+                _verbose = verbose;
             }
 
             [Value(0, Required = true, MetaName = "<MOD-NAME>", HelpText = "The mod's name.")]
@@ -95,6 +108,10 @@ namespace eaw.build
             [Option('r', "repository", Required = false, Default = false, HelpText = "Initialises a git repository.",
                 Hidden = true)] // [Kad]: Hidden unimplemented feature.
             public bool CreateGitRepository => _createGitRepository;
+
+            [Option('v', "verbose", Required = false, Default = false,
+                HelpText = "Prints all messages to standard output.")]
+            public bool Verbose => _verbose;
         }
 
         [Verb("build", HelpText =
@@ -102,15 +119,21 @@ namespace eaw.build
         public class BuildOptions
         {
             private readonly string _configurationFile;
+            private readonly bool _verbose;
 
-            public BuildOptions(string configurationFile)
+            public BuildOptions(string configurationFile, bool verbose)
             {
                 _configurationFile = configurationFile;
+                _verbose = verbose;
             }
 
             [Value(0, Required = true, MetaName = "<CONFIGURATION-FILE>",
                 HelpText = "The path to the mod's configuration file.")]
             public string ConfigurationFile => _configurationFile;
+
+            [Option('v', "verbose", Required = false, Default = false,
+                HelpText = "Prints all messages to standard output.")]
+            public bool Verbose => _verbose;
         }
 
         [Verb("cook", HelpText =
@@ -118,15 +141,21 @@ namespace eaw.build
         public class CookOptions
         {
             private readonly string _configurationFile;
+            private readonly bool _verbose;
 
-            public CookOptions(string configurationFile)
+            public CookOptions(string configurationFile, bool verbose)
             {
                 _configurationFile = configurationFile;
+                _verbose = verbose;
             }
 
             [Value(0, Required = true, MetaName = "<CONFIGURATION-FILE>",
                 HelpText = "The path to the mod's configuration file.")]
             public string ConfigurationFile => _configurationFile;
+
+            [Option('v', "verbose", Required = false, Default = false,
+                HelpText = "Prints all messages to standard output.")]
+            public bool Verbose => _verbose;
         }
 
         [Verb("release", HelpText = "Release a mod.")]
@@ -137,13 +166,16 @@ namespace eaw.build
             private readonly bool _increaseMajor;
             private readonly bool _increaseMinor;
             private readonly bool _increasePatch;
+            private readonly bool _verbose;
 
-            public ReleaseOptions(string configurationFile, bool increaseMajor, bool increaseMinor, bool increasePatch)
+            public ReleaseOptions(string configurationFile, bool increaseMajor, bool increaseMinor, bool increasePatch,
+                bool verbose)
             {
                 _configurationFile = configurationFile;
                 _increaseMajor = increaseMajor;
                 _increaseMinor = increaseMinor;
                 _increasePatch = increasePatch;
+                _verbose = verbose;
             }
 
             [Value(0, Required = true, MetaName = "<CONFIGURATION-FILE>",
@@ -161,23 +193,43 @@ namespace eaw.build
             [Option("patch", SetName = "version-patch", HelpText = "Create a new patch release, e.g. 1.1.1, 1.1.2, ...",
                 Default = false, Required = false)]
             public bool IncreasePatch => _increasePatch;
+
+            [Option('v', "verbose", Required = false, Default = false,
+                HelpText = "Prints all messages to standard output.")]
+            public bool Verbose => _verbose;
         }
 
 
         internal static int Main(string[] args)
         {
-            Options options = Parser.Default
-                .ParseArguments<MigrationOptions, NewOptions, BuildOptions, CookOptions, ReleaseOptions>(args)
-                .MapResult(
-                    (MigrationOptions opts) => new Options(opts),
-                    (NewOptions opts) => new Options(opts),
-                    (BuildOptions opts) => new Options(opts),
-                    (CookOptions opts) => new Options(opts),
-                    (ReleaseOptions opts) => new Options(opts),
-                    errs => new Options(errs));
-            ExitCode exitCode = Executor.Run(options);
+            StringWriter helpWriter = new StringWriter();
+            using (Parser parser = new Parser(with => with.HelpWriter = helpWriter))
+            {
+                parser.ParseArguments<MigrationOptions, NewOptions, BuildOptions, CookOptions, ReleaseOptions>(args)
+                    .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<MigrationOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<NewOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<BuildOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<CookOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithParsed<ReleaseOptions>(opts => HandleOptions(new OptionsWrapper(opts)))
+                    .WithNotParsed(errs => HandleErrors(errs, helpWriter));
+            }
+            return Environment.ExitCode;
+        }
+
+        internal static void HandleOptions(OptionsWrapper o)
+        {
+            Log.Logger = LogUtility.GetLogger(o.Verbose);
+            ExitCode exitCode = Executor.Run(o);
             Environment.ExitCode = (int) exitCode;
-            return (int) exitCode;
+        }
+
+        internal static void HandleErrors(IEnumerable<Error> errs, TextWriter t)
+        {
+            if (errs != null && (errs.IsVersion() || errs.IsHelp()))
+                Console.WriteLine(t.ToString());
+            else
+                Console.Error.WriteLine(t.ToString());
         }
     }
 }

@@ -11,13 +11,25 @@
         <Product>Empire at War Build Tool</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <FileVersion>1.0.0.0</FileVersion>
+        <ProjectGuid>{F5944688-BDF2-4470-8784-FF906B981D83}</ProjectGuid>
+        <Configurations>Debug;Release;Test</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Test' ">
+      <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.6.0" />
-        <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
+        <PackageReference Include="CommandLineParser" Version="2.8.0" />
+        <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="pg.dat" Version="1.0.0" />
         <PackageReference Include="pg.meg" Version="1.0.0" />
+        <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00837" />
+        <PackageReference Include="System.IO.Abstractions" Version="12.0.1" />
+        <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="12.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +37,53 @@
         <EmbeddedResource Include="data\config\mod\v1\yvaw-build.xsd" />
         <EmbeddedResource Include="data\config\mod\v2\eaw-build.xsd" />
         <None Remove="data\config\v1\yvaw-build.xsd" />
+        <None Remove="data\config\text\v1\eaw-translation.xsd" />
+        <EmbeddedResource Include="data\config\text\v1\eaw-translation.xsd" />
+        <None Remove="data\config\text\dat\eaw\de\creditstext_german.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\de\creditstext_german.dat" />
+        <None Remove="data\config\text\dat\eaw\de\mastertextfile_german.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\de\mastertextfile_german.dat" />
+        <None Remove="data\config\text\dat\eaw\es\creditstext_spanish.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\es\creditstext_spanish.dat" />
+        <None Remove="data\config\text\dat\eaw\es\mastertextfile_spanish.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\es\mastertextfile_spanish.dat" />
+        <None Remove="data\config\text\dat\eaw\fr\creditstext_french.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\fr\creditstext_french.dat" />
+        <None Remove="data\config\text\dat\eaw\fr\mastertextfile_french.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\fr\mastertextfile_french.dat" />
+        <None Remove="data\config\text\dat\eaw\it\creditstext_italian.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\it\creditstext_italian.dat" />
+        <None Remove="data\config\text\dat\eaw\it\mastertextfile_italian.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\it\mastertextfile_italian.dat" />
+        <None Remove="data\config\text\dat\foc\de\creditstext_german.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\de\creditstext_german.dat" />
+        <None Remove="data\config\text\dat\foc\de\mastertextfile_german.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\de\mastertextfile_german.dat" />
+        <None Remove="data\config\text\dat\foc\en\creditstext_english.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\en\creditstext_english.dat" />
+        <None Remove="data\config\text\dat\foc\en\mastertextfile_english.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\en\mastertextfile_english.dat" />
+        <None Remove="data\config\text\dat\foc\es\creditstext_spanish.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\es\creditstext_spanish.dat" />
+        <None Remove="data\config\text\dat\foc\es\mastertextfile_spanish.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\es\mastertextfile_spanish.dat" />
+        <None Remove="data\config\text\dat\foc\fr\creditstext_french.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\fr\creditstext_french.dat" />
+        <None Remove="data\config\text\dat\foc\fr\mastertextfile_french.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\fr\mastertextfile_french.dat" />
+        <None Remove="data\config\text\dat\foc\it\creditstext_italian.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\it\creditstext_italian.dat" />
+        <None Remove="data\config\text\dat\foc\it\mastertextfile_italian.dat" />
+        <EmbeddedResource Include="data\config\text\dat\foc\it\mastertextfile_italian.dat" />
+        <None Remove="data\config\text\dat\eaw\en\creditstext_english.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\en\creditstext_english.dat" />
+        <None Remove="data\config\text\dat\eaw\en\mastertextfile_english.dat" />
+        <EmbeddedResource Include="data\config\text\dat\eaw\en\mastertextfile_english.dat" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="data\config\text\dat\eaw" />
+      <Folder Include="data\config\text\dat\foc" />
     </ItemGroup>
 
 </Project>

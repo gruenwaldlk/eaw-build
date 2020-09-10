@@ -7,6 +7,8 @@ namespace eaw.build.app.util
 
         MigrationOptionsArgumentError = 10,
 
+        TextProjectCreationCompletedWithErrors = 30,
+
         CommandInvokeCannotExecute = 126,
         CommandNotFound = 127,
         InvalidExitArgument = 128,

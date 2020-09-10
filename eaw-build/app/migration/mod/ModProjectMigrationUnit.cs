@@ -5,19 +5,32 @@ using System.Linq;
 using eaw.build.app.util;
 using eaw.build.app.util.mod;
 using eaw.build.app.util.xml;
+using eaw.build.app.version.mod;
 using eaw.build.data.config.mod.v1;
 using eaw.build.data.config.mod.v2;
+using Serilog;
 
 namespace eaw.build.app.migration.mod
 {
-    internal class ModProjectMigrationUnit : IMigrationUnit
+    internal class ModProjectMigrationUnit : IMigrationUnit<ModProjectVersion>
     {
         private const ModProjectVersion CURRENT_VERSION = ModProjectVersion.V2;
         private const string MISSING = "MISSING";
         private const string MISSING_VERSION = "0.1.0";
 
+        public ModProjectVersion GetCurrentVersion()
+        {
+            return CURRENT_VERSION;
+        }
+
         internal string OldFilePath { get; }
-        internal string NewFilePath { get; }
+
+        internal string NewFilePath { get; private set; }
+
+        internal ModProjectMigrationUnit(string oldFilePath)
+        {
+            OldFilePath = oldFilePath;
+        }
 
         internal ModProjectMigrationUnit(string oldFilePath, string newFilePath)
         {
@@ -43,6 +56,7 @@ namespace eaw.build.app.migration.mod
 
         private ExitCode MigrateV1()
         {
+            Log.Information($"Migrating mod project from {ModProjectVersion.V1} to {CURRENT_VERSION} ...");
             try
             {
                 ModBuildConfigType config = XmlUtility.ReadAndValidateXmlFile<ModBuildConfigType>(V1.XSD, OldFilePath);
@@ -50,14 +64,20 @@ namespace eaw.build.app.migration.mod
                 {
                     ModInfo = V1.ExtractModInfoType(config), BuildSettings = V1.ExtractBuildSettingsType(config)
                 };
+                if (string.IsNullOrWhiteSpace(NewFilePath))
+                {
+                    NewFilePath = PathUtility.Combine(PathUtility.GetDirectoryPathFromFilePath(OldFilePath),
+                        V2.DEFAULT_CONFIGURATION_FILE_NAME);
+                    Log.Debug("Migrating to {NewFilePath}", NewFilePath);
+                }
                 XmlUtility.WriteXmlFile(NewFilePath, modProjectType);
+                Log.Information("Migration finished successfully.");
                 return ExitCode.Success;
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
+                Log.Error(e, "");
             }
-
             return ExitCode.Error;
         }
 
@@ -65,6 +85,7 @@ namespace eaw.build.app.migration.mod
         {
             internal const string XSD = "v1.yvaw-build.xsd";
             internal const string DEFAULT_TRANSLATION_MANIFEST = "TranslationManifest.xml";
+            internal const string DEFAULT_CONFIGURATION_FILE_NAME = "build.cfg";
 
             internal static ModInfoType ExtractModInfoType(ModBuildConfigType config)
             {
@@ -93,10 +114,7 @@ namespace eaw.build.app.migration.mod
                 int minorVersion = int.Parse(modVersionSplit[1] ?? "1");
                 int patchVersion = int.Parse(modVersionSplit[2] ?? "0");
                 return
-                    new ModVersionType
-                    {
-                        Major = majorVersion, Minor = minorVersion, Patch = patchVersion, Build = 0
-                    };
+                    new ModVersionType {Major = majorVersion, Minor = minorVersion, Patch = patchVersion, Build = 0};
             }
 
             private static ModDescriptionType ExtractModDescriptionType(ModBuildConfigType config)
@@ -130,8 +148,7 @@ namespace eaw.build.app.migration.mod
                     OutputDirectory = V2.DEFAULT_COOK_DIRECTORY,
                     MoveDefinitions = new MoveDefinitionsType()
                     {
-                        Directories = new eaw.build.data.config.mod.v2.DirectoryType[0],
-                        Files = new string[0]
+                        Directories = new eaw.build.data.config.mod.v2.DirectoryType[0], Files = new string[0]
                     }
                 };
                 List<data.config.mod.v2.BundleType> bundleTypes = new List<data.config.mod.v2.BundleType>();
@@ -150,8 +167,7 @@ namespace eaw.build.app.migration.mod
                         let directoryPath = directoryType.Value
                         select new data.config.mod.v2.DirectoryType
                         {
-                            Recursive = recursive, DirectoryPath = directoryPath,
-                            FileSearchPattern = filePattern
+                            Recursive = recursive, DirectoryPath = directoryPath, FileSearchPattern = filePattern
                         }).ToArray();
                     bundleV2.Content.Files = bundleType.File.ToArray();
                     bundleTypes.Add(bundleV2);
@@ -167,11 +183,12 @@ namespace eaw.build.app.migration.mod
             internal const string XSD = "v2.eaw-build.xsd";
             internal static readonly string TRANSLATION_PROJECT_BASE_PATH = Path.Combine("data", "text");
             internal const string DEFAULT_COOK_DIRECTORY = "cooked";
+            internal const string DEFAULT_CONFIGURATION_FILE_NAME = "configuration.xml";
         }
 
         private ExitCode MigrateV2()
         {
-            Console.Error.WriteLine(
+            Log.Warning(
                 $"No migration necessary. The mod project is already a {CURRENT_VERSION.ToString()} project.");
             return ExitCode.Success;
         }
